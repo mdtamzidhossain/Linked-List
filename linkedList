@@ -1,0 +1,196 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+
+
+struct std{
+   int id;
+   struct std *next;
+   struct std *pre
+} *start = NULL, *end=NULL;
+
+
+
+void create()
+{
+    struct std *newnode,*current;
+    int n,i;
+    printf("How many nodes do u want\n");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        newnode=(struct std*)malloc(sizeof(struct std));
+        printf("Enter newnode id\n");
+        scanf("%d",&newnode->id);
+        newnode->next=NULL;
+        newnode->pre=NULL;
+        if(start==NULL||end==NULL)
+        {
+            start=newnode;
+            current=newnode;
+            end=newnode;
+        }
+        else
+        {
+            current->next=newnode;
+            newnode->pre=current;
+            current=newnode;
+            end=current;
+        }
+    }
+}
+
+
+
+void f_insert()
+{
+    struct std *newnode,*current;
+    newnode=(struct std*)malloc(sizeof(struct std*));
+    printf("Enter first inserted node er ID\n");
+    scanf("%d",&newnode->id);
+    newnode->next=NULL;
+    newnode->pre=NULL;
+    current=start;
+    newnode->next=current;
+    current->pre=newnode;
+    start=newnode;
+}
+
+
+
+void l_insert()
+{
+    struct std *newnode,*current;
+    newnode=(struct std*)malloc(sizeof(struct std*));
+    printf("Enter last inserted node er ID\n");
+    scanf("%d",&newnode->id);
+    newnode->next=NULL;
+    newnode->pre=NULL;
+    current=end;
+    current->next=newnode;
+    newnode->pre=current;
+    end=newnode;
+}
+
+
+
+void count()
+{
+    struct std *current;
+    int cnt=0;
+    current=start;
+    while(current!=NULL)
+    {
+        cnt++;
+        current=current->next;
+    }
+    printf("Total node %d\n",cnt);
+}
+
+
+
+int search(int key)
+{
+    struct std *current;
+    int pos=0;
+    current=start;
+    while(current!=NULL)
+    {
+        pos++;
+        if(key==current->id){
+          return pos;
+        }
+        current=current->next;
+    }
+    return -1;
+}
+
+
+void m_insert()
+{
+    struct std *current,*newnode,*temp;
+    int pos,i,key;
+    newnode=(struct std*)malloc(sizeof(struct std*));
+    printf("Enter middle inserted node er ID\n");
+    scanf("%d",&newnode->id);
+    newnode->next=NULL;
+    newnode->pre=NULL;
+    printf("Where do u want insert the middle node\n");
+    scanf("%d",&key);
+    pos=search(key);
+    current=start;
+    for(i=1;i<=pos-1;i++)
+    {
+        current=current->next;
+    }
+    temp=current->next;
+    current->next=newnode;
+    newnode->pre=current;
+    newnode->next=temp;
+    temp->pre=newnode;
+}
+
+void deletee()
+{
+    struct std *current,*temp,*temp1,*temp2;
+    int pos,i,key;
+    printf("Which node do u want to delete\n");
+    scanf("%d",&key);
+    pos=search(key);
+    current=start;
+    for(i=0;i<pos-1;i++)
+    {
+        current=current->next;
+    }
+    if(current==start||current->pre==NULL)
+    {
+        temp=current->next;
+        start=temp;
+        temp->pre=NULL;
+    }
+    else if(current==end||current->next==NULL)
+    {
+       temp=current->pre;
+       temp->next=NULL;
+       end=temp;
+    }
+    else
+    {
+        temp1=current->pre;
+        temp2=current->next;
+        temp1->next=temp2;
+        temp2->pre=temp1;
+    }
+}
+
+
+
+
+void display()
+{
+    struct std *current;
+    current= start;
+    while(current!=NULL)
+    {
+        printf("%d---->",current->id);
+        current=current->next;
+    }
+    printf("NULL\n");
+}
+
+
+
+int main()
+{
+    create();
+    display();
+    f_insert();
+    display();
+    l_insert();
+    display();
+ //   count();
+    m_insert();
+    display();
+    deletee();
+    display();
+}
