@@ -87,7 +87,7 @@ void count()
     printf("Total node %d\n",cnt);
 }
 
-
+// for search key
 
 int search(int key)
 {
